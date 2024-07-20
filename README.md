@@ -21,7 +21,9 @@
 1.先將文字檔儲存成UTF8格式
 
 2.對輸入法右鍵選擇個人詞庫
+
 ![image](https://github.com/user-attachments/assets/85494e5e-db71-47ea-b6cf-05dbc0495b6f)
 
 3.選擇匯入
+
 ![image](https://github.com/user-attachments/assets/bca034d8-44bc-43ac-888d-44a51705662b)
