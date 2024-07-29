@@ -6,7 +6,7 @@
 
 由於Window10跟Windows11可匯入的格式不同，加上維護上的困難，會採用UTF8編碼存檔，請使用者自行修改編碼
 
-### Windows 10 修改方式
+# Windows 10 修改方式
 
 1.使用記事本打開
 
@@ -14,7 +14,7 @@
 
 3.選擇ANSI
 
-### Windows 11 修改方式
+# Windows 11 修改方式
 
 1.使用記事本打開
 
@@ -24,7 +24,6 @@
 
 ![image](https://github.com/user-attachments/assets/8bc72004-be31-4598-9bb5-548a941c7b6b)
 
-### 匯入方式
 
 1.對輸入法右鍵選擇使用者造詞
 ![Snipaste_2024-07-11_14-01-31](https://github.com/aa846301/LoL-UserTerms/assets/6349108/09d4610e-99e1-42c5-8932-f1b2011f7ad6)
@@ -39,7 +38,7 @@
 3.存檔
 
 
-## 華碩智慧輸入法匯入方式
+## 華碩智慧輸入法使用說明
 
 1.先將文字檔儲存成UTF8格式
 
