@@ -34,7 +34,7 @@ jobs:
         for file in *.txt; do
           iconv -f UTF-8 -t UTF-16 "$file" > "utf16/$file"
         done
-        zip -r ${{ github.event.repository.name }}_$VERSION_Win11.zip utf16/*.txt
+        zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}_Win11.zip utf16/*.txt
 
     - name: Convert to Big5 and ZIP
       run: |
@@ -50,8 +50,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: $VERSION
-        release_name: Release $VERSION
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
         draft: false
         prerelease: false
 
