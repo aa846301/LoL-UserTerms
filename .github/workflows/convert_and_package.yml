@@ -34,15 +34,15 @@ jobs:
         for file in *.txt; do
           iconv -f UTF-8 -t UTF-16 "$file" > "utf16/$file"
         done
-        zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}_Win11.zip utf16/*.txt
+        zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}.zip *.txt
 
-    - name: Convert to Big5 and ZIP
-      run: |
-        mkdir big5
-        for file in *.txt; do
-          iconv -f UTF-8 -t BIG5 "$file" > "big5/$file"
-        done
-        zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip big5/*.txt
+    # - name: Convert to Big5 and ZIP
+    #   run: |
+    #     mkdir big5
+    #     for file in *.txt; do
+    #       iconv -f UTF-8 -t BIG5 "$file" > "big5/$file"
+    #     done
+    #     zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip big5/*.txt
 
     - name: Create Release
       id: create_release
@@ -61,16 +61,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./${{ github.event.repository.name }}_${{ env.VERSION }}_Win11.zip
-        asset_name: ${{ github.event.repository.name }}_${{ env.VERSION }}_Win11.zip
+        asset_path: ./${{ github.event.repository.name }}_${{ env.VERSION }}.zip
+        asset_name: ${{ github.event.repository.name }}_${{ env.VERSION }}.zip
         asset_content_type: application/zip
 
-    - name: Upload Big5 Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip
-        asset_name: ${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip
-        asset_content_type: application/zip
+    # - name: Upload Big5 Release Asset
+    #   uses: actions/upload-release-asset@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+    #     asset_path: ./${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip
+    #     asset_name: ${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip
+    #     asset_content_type: application/zip
