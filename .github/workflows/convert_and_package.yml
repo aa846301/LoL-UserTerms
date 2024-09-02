@@ -32,7 +32,7 @@ jobs:
       run: |
         mkdir utf16
         for file in *.txt; do
-          iconv -f UTF-8 -t UTF-16LE a-8.strings -o b-16.strings "$file" > "utf16/$file"
+          iconv -f UTF-8 -t UTF-16LE "$file" -o "utf16/$file"
         done
         zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}.zip *.txt
 
