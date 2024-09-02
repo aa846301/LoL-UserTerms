@@ -55,11 +55,12 @@ jobs:
                     # Write BOM for UTF-16 LE
                     f.write('\ufeff')
                     f.write(content)
-  
+        
               
       shell: python
-
-
+    - name: Create Zip 
+      run: zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}.zip utf16
+      
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
