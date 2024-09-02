@@ -17,12 +17,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
+
+    - name: Create utf16 directory
+      run: mkdir utf16
 
     - name: Get release version
       id: get_version
@@ -32,11 +36,11 @@ jobs:
         else
           echo "VERSION=${{ github.event.inputs.release_version }}" >> "$GITHUB_ENV"
         fi
-    - name: Convert UTF-8 to UTF-16 LE BOM
+    - name: Convert .txt files from UTF-8 to UTF-16 LE BOM using Python
       run: |
         import os
 
-        input_dir = 'input'
+        input_dir = '.'
         output_dir = 'utf16'
 
         if not os.path.exists(output_dir):
@@ -46,13 +50,15 @@ jobs:
             if filename.endswith(".txt"):
                 with open(os.path.join(input_dir, filename), 'r', encoding='utf-8') as f:
                     content = f.read()
-                
+
                 with open(os.path.join(output_dir, filename), 'w', encoding='utf-16-le') as f:
                     # Write BOM for UTF-16 LE
                     f.write('\ufeff')
                     f.write(content)
-
+  
+              
       shell: python
+
 
     - name: Create Release
       id: create_release
