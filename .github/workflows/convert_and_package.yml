@@ -19,6 +19,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
     - name: Get release version
       id: get_version
       run: |
@@ -27,22 +32,27 @@ jobs:
         else
           echo "VERSION=${{ github.event.inputs.release_version }}" >> "$GITHUB_ENV"
         fi
-
-    - name: Convert to UTF-16 LE and ZIP
+    - name: Convert UTF-8 to UTF-16 LE BOM
       run: |
-        mkdir utf16
-        for file in *.txt; do
-          iconv -f UTF-8 -t UTF-16LE "$file" -o "utf16/$file"
-        done
-        zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}.zip *.txt
+        import os
 
-    # - name: Convert to Big5 and ZIP
-    #   run: |
-    #     mkdir big5
-    #     for file in *.txt; do
-    #       iconv -f UTF-8 -t BIG5 "$file" > "big5/$file"
-    #     done
-    #     zip -r ${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip big5/*.txt
+        input_dir = 'input'
+        output_dir = 'utf16'
+
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        for filename in os.listdir(input_dir):
+            if filename.endswith(".txt"):
+                with open(os.path.join(input_dir, filename), 'r', encoding='utf-8') as f:
+                    content = f.read()
+                
+                with open(os.path.join(output_dir, filename), 'w', encoding='utf-16-le') as f:
+                    # Write BOM for UTF-16 LE
+                    f.write('\ufeff')
+                    f.write(content)
+
+      shell: python
 
     - name: Create Release
       id: create_release
@@ -65,12 +75,3 @@ jobs:
         asset_name: ${{ github.event.repository.name }}_${{ env.VERSION }}.zip
         asset_content_type: application/zip
 
-    # - name: Upload Big5 Release Asset
-    #   uses: actions/upload-release-asset@v1
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-    #     asset_path: ./${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip
-    #     asset_name: ${{ github.event.repository.name }}_${{ env.VERSION }}_Win10.zip
-    #     asset_content_type: application/zip
